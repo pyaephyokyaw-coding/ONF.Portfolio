@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ONF.Portfolio.Domain.Entities.ProjectModel>
+
+@{
+    ViewData["Title"] = "Projects Page";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-3">My Project</h2>
+    <a href="/Project/Create" class="btn btn-primary mb-3">Add Project</a>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Url</th>
+                <th>Created</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var project in Model)
+                {
+                    <tr>
+                        <td>@project.Title</td>
+                        <td>@project.Description</td>
+                        <td><a href="@project.Url" target="_blank">Link</a></td>
+                        <td>@project.CreatedDate</td>
+                        <td>
+                            <a href="/Project/Edit/@project.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="/Project/Delete/@project.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
