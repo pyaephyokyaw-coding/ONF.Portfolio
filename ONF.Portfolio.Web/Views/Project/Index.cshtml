@@ -38,3 +38,8 @@
         </tbody>
     </table>
 </div>
+
+@if (TempData["Delete"] != null)
+{
+    <div class="alert alert-success mt-3">@TempData["Delete"]</div>
+}

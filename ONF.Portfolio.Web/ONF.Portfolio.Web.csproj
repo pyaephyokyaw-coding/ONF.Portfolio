@@ -16,4 +16,8 @@
     <Folder Include="wwwroot\Images\Project\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.TeamFoundationServer.Client" Version="19.225.1" />
+  </ItemGroup>
+
 </Project>

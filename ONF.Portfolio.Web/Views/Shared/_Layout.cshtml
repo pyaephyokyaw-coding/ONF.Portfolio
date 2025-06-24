@@ -8,46 +8,139 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ONF.Portfolio.Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #1A547A;
+            color: white;
+            padding: 1rem;
+            box-sizing: border-box;
+            transition: width 0.3s ease;
+            overflow: hidden;
+        }
+
+            .sidebar.collapsed {
+                width: 70px;
+            }
+
+            .sidebar h2,
+            .sidebar ul {
+                transition: opacity 0.3s ease;
+            }
+
+            .sidebar.collapsed h2,
+            .sidebar.collapsed ul {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+        .toggle-btn {
+            background-color: #1A547A;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .content {
+            flex: 1;
+            padding: 1rem;
+            background-color: #f4f4f4;
+        }
+    </style>
+    <style>
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .sidebar-nav .nav-item {
+                color: white;
+                padding: 0.75rem 1rem;
+                border-radius: 4px;
+                margin-bottom: 0.25rem;
+                cursor: pointer;
+                transition: background 0.2s;
+                user-select: none;
+            }
+
+                .sidebar-nav .nav-item:hover:not(.disabled),
+                .sidebar-nav .nav-item:focus-visible:not(.disabled) {
+                    background-color: #17486a;
+                }
+
+                .sidebar-nav .nav-item.active {
+                    background-color: #0C7CC4;
+                    font-weight: bold;
+                }
+
+                .sidebar-nav .nav-item.disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                    pointer-events: none;
+                }
+
+    </style>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("collapsed");
+
+            var isCollapsed = sidebar.classList.contains("collapsed");
+            document.querySelector('.portfolio-text').style.display = isCollapsed ? 'none' : '';
+            document.querySelector('.portfolio-icon').style.display = isCollapsed ? '' : 'none';
+        }
+    </script>
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Portfolio</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Project</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+    <div id="sidebar" class="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()">
+            <span class="sidebar-title">
+                <span class="portfolio-text fs-1">Portfolio</span>
+                <span class="portfolio-icon" style="display:none;"><i class="bi bi-list fs-2"></i></span>
+            </span>
+        </button>
+        <nav>
+            <ul class="sidebar-nav">
+                <li class="nav-item @(ViewContext.RouteData.Values["page"]?.ToString() == "/Index" ? "active" : "")">
+                    <p><a href="/" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Home</a></p>
+                </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["page"]?.ToString() == "/Project" ? "active" : "")">
+                    <p><a href="/Project" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Project</a></p>
+                </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["page"]?.ToString() == "/Privacy" ? "active" : "")">
+                    <p><a href="/Home/Privacy" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Privacy</a></p>
+                </li>
+                <li class="nav-item disabled">
+                    <span>Contact</span>
+                </li>
+            </ul>
         </nav>
-    </header>
+    </div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - ONF.Portfolio.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

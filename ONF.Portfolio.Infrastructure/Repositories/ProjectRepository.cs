@@ -37,8 +37,8 @@ public class ProjectRepository
     public async Task<ProjectModel> AddProjectAsync(ProjectModel project)
     {
         const string sql = @"
-INSERT INTO Projects (Title, Description, Url, CreateDate)
-VALUES (@Title, @Description, @Url, @CreateDate);
+INSERT INTO Projects (Title, Description, Url, CreatedDate)
+VALUES (@Title, @Description, @Url, @CreatedDate);
 
 SELECT * FROM Projects (NOLOCK) WHERE Id = SCOPE_IDENTITY()
 ";
@@ -53,7 +53,7 @@ UPDATE Projects
 SET Title = @Title, 
     Description = @Description, 
     Url = @Url, 
-    CreateDate = @CreateDate
+    CreatedDate = @CreatedDate
 WHERE Id = @Id;
 ";
         await _connection.ExecuteAsync(sql, project);
